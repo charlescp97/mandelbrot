@@ -25,6 +25,19 @@ impl Complex {
     }
 }
 
+fn escape_time(c: Complex, max_iter: u32) -> Option<u32> {
+    //Maybe a value, either Some(number) or None
+    let mut z = Complex { re: 0.0, im: 0.0 };
+
+    for i in 0..max_iter {
+        if z.norm_sqr() > 4.0 {
+            return Some(i); //exit function early, escaped the set
+        }
+        z = z.square().add(c);
+    }
+    None //did not exit function so is in the mandelbrt set
+}
+
 fn main() {}
 
 #[cfg(test)] // only compile this when running cargo test
