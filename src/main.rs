@@ -52,7 +52,32 @@ fn pixel_to_point(
     }
 }
 
-fn main() {}
+fn render(pixels: &mut [u8], bounds: (usize, usize), upper_left: Complex, lower_right: Complex) {
+    for y in 0..bounds.1 {
+        for x in 0..bounds.0 {
+            let c = pixel_to_point(bounds, (x, y), upper_left, lower_right);
+            pixels[y * bounds.0 + x] = match escape_time(c, 255) {
+                None => 0,
+                Some(i) => 255 - i as u8,
+            };
+        }
+    }
+}
+
+fn main() {
+    let bounds = (1000, 750);
+    let upper_left = Complex { re: -2.2, im: 1.2 };
+    let lower_right = Complex { re: 1.0, im: -1.2 };
+
+    let mut pixels = vec![0u8; bounds.0 * bounds.1];
+    render(&mut pixels, bounds, upper_left, lower_right);
+
+    let img = image::GrayImage::from_raw(bounds.0 as u32, bounds.1 as u32, pixels)
+        .expect("buffer size should match image size");
+
+    img.save("mandelbrot.png").expect("failed to save PNG");
+    println!("Saved mandebrot.png");
+}
 
 #[cfg(test)] // only compile this when running cargo test
 mod tests;
