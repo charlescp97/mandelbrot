@@ -25,10 +25,7 @@ impl Complex {
     }
 }
 
-fn main() {
-    let z = Complex { re: 3.0, im: 2.0 };
-    println!("{:#?}", z);
-    println!("{:#?}", z.square()); //re: 5, im: 12
-    println!("{:#?}", z.add(z)); //re:6, im:4
-    println!("{:#?}", z.norm_sqr()); //13
-}
+fn main() {}
+
+#[cfg(test)] // only compile this when running cargo test
+mod tests;
