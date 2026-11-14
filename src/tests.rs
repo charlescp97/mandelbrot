@@ -41,3 +41,15 @@ fn three_escapes_one() {
     let c = Complex { re: 3.0, im: 0.0 };
     assert_eq!(escape_time(c, 100), Some(1));
 }
+
+#[test]
+fn pixel_mapping() {
+    let p = pixel_to_point(
+        (100, 200),
+        (25, 175),
+        Complex { re: -1.0, im: 1.0 },
+        Complex { re: 1.0, im: -1.0 },
+    );
+    assert_eq!(p.re, -0.5);
+    assert_eq!(p.im, -0.75);
+}
